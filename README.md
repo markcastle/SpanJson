@@ -1,7 +1,146 @@
-# SpanJson
-[![NuGet](https://img.shields.io/nuget/v/SpanJson.svg)](https://www.nuget.org/packages/SpanJson)
+# 🚀 SpanJson
 
-See https://github.com/Tornhoof/SpanJson/wiki/Performance for Benchmarks
+[![NuGet](https://img.shields.io/nuget/v/SpanJson.svg)](https://www.nuget.org/packages/SpanJson)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Build Status](https://github.com/markcastle/SpanJson/actions/workflows/build.yml/badge.svg)](https://github.com/markcastle/SpanJson/actions/workflows/build.yml)
+
+> A high-performance JSON serializer for .NET that leverages `Span<T>` for maximum performance and minimal allocations.
+
+## 📊 Performance
+
+See [Performance Benchmarks](https://github.com/markcastle/SpanJson/wiki/Performance) for detailed comparisons with other JSON serializers.
+
+## ✨ Features
+
+### 🔄 Core Functionality
+- Serialization and Deserialization into/from:
+  - Byte arrays
+  - Strings
+  - TextWriter/TextReader
+  - Streams
+
+### 📦 Supported Types
+- **Primitive Types**: `bool`, `char`, `sbyte`, `Int16`, `Int32`, `Int64`, `byte`, `UInt16`, `UInt32`, `UInt64`, `Single`, `Double`, `decimal`
+- **Date/Time**: `DateTime`, `DateTimeOffset`, `TimeSpan`, `DateOnly`, `TimeOnly`
+- **Special Types**: `string`, `Uri`, `Guid`, `Version`
+- **Collections**: Arrays, Lists, Dictionaries, Tuples, ValueTuples, KeyValuePairs
+- **Enums**: String and integer support (including Flags)
+- **Dynamic Objects**
+- **Anonymous Types**
+- **Immutable Collections**: `ImmutableList`, `ImmutableArray`, `ImmutableDictionary`, `ImmutableSortedDictionary`
+
+### 🛠️ Advanced Features
+- **Custom Resolvers** for controlling serialization behavior
+- **Pretty Printing** and **Minification** of JSON
+- **ISO8601** DateTime formatting
+- **Extension Data** support via `[JsonExtensionData]`
+- **Custom Serializers** via `[JsonCustomSerializer]`
+- **Constructor Injection** via `[JsonConstructor]`
+- **Member Control**:
+  - `[DataMember(Name="MemberName")]` for custom field names
+  - `[IgnoreDataMember]` to exclude members
+  - `ShouldSerializeXXX()` pattern for runtime control
+  - `[EnumMember]` for custom enum string values
+
+## 🚀 Quick Start
+
+### Installation
+```bash
+dotnet add package SpanJson
+```
+
+### Basic Usage
+```csharp
+using SpanJson;
+
+// Simple serialization/deserialization
+var input = new Input { Text = "Hello World" };
+var serialized = JsonSerializer.Generic.Utf16.Serialize(input);
+var deserialized = JsonSerializer.Generic.Utf16.Deserialize<Input>(serialized);
+```
+
+### API Overview
+
+#### Synchronous API
+```csharp
+// UTF16
+var result = JsonSerializer.Generic.Utf16.Serialize(input);
+var result = JsonSerializer.Generic.Utf16.Deserialize<Input>(input);
+
+// UTF8
+var result = JsonSerializer.Generic.Utf8.Serialize(input);
+var result = JsonSerializer.Generic.Utf8.Deserialize<Input>(input);
+
+// ArrayPool (remember to return!)
+var result = JsonSerializer.Generic.Utf16.SerializeToArrayPool(input);
+```
+
+#### Asynchronous API
+```csharp
+// UTF16
+ValueTask result = JsonSerializer.Generic.Utf16.SerializeAsync(input, textWriter, cancellationToken);
+ValueTask<Input> result = JsonSerializer.Generic.Utf16.DeserializeAsync<Input>(textReader, cancellationToken);
+
+// UTF8
+ValueTask result = JsonSerializer.Generic.Utf8.SerializeAsync(input, stream, cancellationToken);
+ValueTask<Input> result = JsonSerializer.Generic.Utf8.DeserializeAsync<Input>(stream, cancellationToken);
+```
+
+## 🎯 Advanced Usage
+
+### Custom Resolvers
+```csharp
+// Use different resolvers for custom behavior
+var serialized = JsonSerializer.NonGeneric.Utf16.Serialize<Input, IncludeNullsOriginalCaseResolver<char>>(input);
+```
+
+### Pretty Printing & Minification
+```csharp
+// Pretty print JSON
+var pretty = JsonSerializer.PrettyPrinter.Print(serialized);
+
+// Minify JSON
+var minified = JsonSerializer.Minifier.Minify(serialized);
+```
+
+### Constructor Injection
+```csharp
+public class DefaultDO
+{
+    [JsonConstructor]
+    public DefaultDO(string key, int value)
+    {
+        Key = key;
+        Value = value;
+    }
+
+    public string Key { get; }
+    public int Value { get; }
+}
+```
+
+### Custom Serializers
+```csharp
+[JsonCustomSerializer(typeof(LongAsStringFormatter), "Hello World")]
+public class TestDTO
+{
+    public long Value { get; set; }
+}
+```
+
+## 📚 Documentation
+
+For more detailed information, please refer to:
+- [Performance Benchmarks](https://github.com/markcastle/SpanJson/wiki/Performance)
+- [API Documentation](https://github.com/markcastle/SpanJson/wiki)
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## What is supported ##
 - Serialization and Deserialization into/from byte arrays, strings, TextWriter/TextReader and streams
