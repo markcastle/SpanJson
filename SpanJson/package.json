@@ -1,0 +1,9 @@
+{
+  "name": "com.markcastle.spanjson.unity",
+  "displayName": "SpanJson for Unity",
+  "version": "1.1.0",
+  "unity": "2019.4",
+  "description": "SpanJson is a JSON serializer for .NET",
+  "author": "Mostly: Stefan Tornhoof.  Updates for Unity from Yahor Paulovich and Mark Castle",
+  "dependencies": {}
+}

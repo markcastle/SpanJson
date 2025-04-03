@@ -49,6 +49,19 @@ See [Performance Benchmarks](https://github.com/markcastle/SpanJson/wiki/Perform
 dotnet add package SpanJson
 ```
 
+#### Unity
+
+To use SpanJson in Unity, you'll need to open the Package Manager and install the package via the Git URL. Follow these steps:
+
+1. Open Unity.
+2. In the top menu, go to Window > Package Manager.
+3. In the Package Manager, click the + button at the top-left corner and select "Add package from git URL...".
+4. Enter the following Git URL: 
+    https://github.com/markcastle/SpanJson.git?path=/SpanJson
+5. Click Add to install the SpanJson package into your Unity project.
+
+This will allow you to use the SpanJson library directly in Unity.
+
 ### Basic Usage
 ```csharp
 using SpanJson;
